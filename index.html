@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBS Online POS Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            font-family: 'Maven Pro', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Background Image */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('NBS POS.png'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            z-index: 1; /* Below other content */
+        }
+
+        header {
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            width: 100px; /* Adjust size as needed */
+        }
+
+        h1 {
+            color: green;
+            margin: 0;
+            text-align: center; /* Centered heading */
+            flex: 1; /* Allows the heading to take remaining space */
+        }
+
+        main {
+            display: flex;
+            margin-top: 80px; /* Space for fixed header */
+            flex: 1;
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+            z-index: 2; /* Above background */
+        }
+
+        nav {
+            width: 200px;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* Align buttons vertically */
+        }
+
+        nav button {
+            width: 100%;
+            padding: 15px; /* Increased padding for larger buttons */
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 1.1em; /* Increased font size */
+            transition: background-color 0.3s;
+            display: flex; /* Flexbox for icon alignment */
+            align-items: center; /* Center icon and text vertically */
+        }
+
+        nav button i {
+            margin-right: 10px; /* Space between icon and text */
+        }
+
+        nav button:hover {
+            background-color: darkgreen;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+            margin-left: 10px;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
+            max-height: 80vh;
+            overflow-y: auto;
+            font-size: 1.1em; /* Increased text size in containers */
+        }
+
+        .instructions ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        footer {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+            color: green;
+            position: relative;
+        }
+
+        .footer-small {
+            font-size: 0.8em;
+            color: gray;
+        }
+
+        .button {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 20px; /* Increased padding */
+            background-color: gray;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1.1em; /* Increased font size */
+        }
+
+        .button.enabled {
+            background-color: green;
+        }
+
+        .big-input {
+            width: 100%;
+            padding: 15px; /* Increased padding for inputs */
+            font-size: 1.1em; /* Increased font size */
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                width: 100%; /* Full width on small screens */
+            }
+
+            nav button {
+                font-size: 1em; /* Adjust font size for smaller screens */
+            }
+
+            .big-input {
+                font-size: 1em; /* Adjust font size for inputs */
+            }
+
+            .button {
+                font-size: 1em; /* Adjust button font size */
+            }
+
+            h1 {
+                font-size: 1.5em; /* Adjust heading size on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="background"></div> <!-- Background Image -->
+
+<header>
+    <div class="logo">
+        <img src="nbs-logo.png" alt="Logo"> <!-- Replace with your logo -->
+    </div>
+    <h1>NBS Online POS Application</h1>
+</header>
+
+<main>
+    <nav>
+        <button onclick="showContainer('homeContainer')"><i class="fas fa-home"></i>Home</button>
+        <button onclick="showContainer('applicationContainer')"><i class="fas fa-plus-circle"></i>New Application</button>
+        <button onclick="showContainer('trackContainer')"><i class="fas fa-search"></i>Track Application</button>
+        <button onclick="showContainer('viewContainer')"><i class="fas fa-eye"></i>View Application</button>
+        <button onclick="showContainer('termsContainer')"><i class="fas fa-file-alt"></i>Terms and Conditions</button>
+    </nav>
+
+    <div class="container" id="homeContainer">
+        <h2>Online Application Instructions</h2>
+        <ul>
+            <li>Fill in the form accordingly.</li>
+            <li>Upload the following clear scanned PDF documents during the application process:
+                <ul>
+                    <li>Memorandum and Articles of Association</li>
+                    <li>Certificate of Incorporation</li>
+                    <li>Tax Clearance</li>
+                    <li>CR14</li>
+                    <li>Copy of the Resolution of Board of Directors authorizing the registration as an NBS Merchant</li>
+                    <li>Copies of IDs of Directors or persons playing an equivalent role</li>
+                    <li>Proof of operating at permanent business premises/Copy of lease agreement for rented premises.</li>
+                    <li>Proof of residence for the directors - Utility bill within 3 months or affidavit signed by commissioner of oaths</li>
+                    <li>Two (2) passport size photos of Directors or persons playing an equivalent role</li>
+                    <li>Company profile</li>
+                    <li>CR 2</li>
+                    <li>CR 6</li>
+                </ul>
+            </li>
+            <li>Submit the form online.</li>
+            <li>If you are facing any challenges, kindly <a href="https://wa.me/+263776124769" target="_blank">WhatsApp</a> for assistance.</li>
+        </ul>
+        <button class="button" onclick="showContainer('applicationContainer')">Start Application</button>
+        <button class="button" onclick="downloadRequirements()">Download Requirements Document</button>
+    </div>
+
+    <div class="container" id="applicationContainer">
+        <h2>New Application</h2>
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" class="big-input" placeholder="Munashe Chidyiwa" oninput="checkInput()">
+
+        <label for="idNumber">ID Number:</label>
+        <input type="text" id="idNumber" class="big-input" placeholder="18-144828-63" oninput="checkInput()">
+
+        <label for="businessName">Business Name:</label>
+        <input type="text" id="businessName" class="big-input" placeholder="Mudyiwa General Dealers" oninput="checkInput()">
+
+        <label for="businessAddress">Business Physical Address:</label>
+        <input type="text" id="businessAddress" class="big-input" placeholder="55 Market House Building Cnr Harare Street and Bank Street" oninput="checkInput()">
+
+        <label for="contactDetails">Contact Details:</label>
+        <input type="text" id="contactDetails" class="big-input" placeholder="0776124769" oninput="checkInput()">
+
+        <label for="terminalsApplied">Number Of Terminals Applied For:</label>
+        <input type="number" id="terminalsApplied" class="big-input" placeholder="12" oninput="checkInput()">
+
+        <button id="submitDocuments" class="button hidden" onclick="proceedToUpload()">Proceed to Submit Company Documents</button>
+    </div>
+
+    <div class="container" id="trackContainer">
+        <h2>Track Your Application</h2>
+        <label for="verificationCode">NBS Verification Code:</label>
+        <input type="text" id="verificationCode" class="big-input" placeholder="Enter your 6-digit code">
+
+        <button class="button centered" onclick="checkStatus()">Check Status</button>
+    </div>
+
+    <div class="container" id="viewContainer">
+        <h2>View Your Application</h2>
+        <label for="viewVerificationCode">Enter NBS Verification Code:</label>
+        <input type="text" id="viewVerificationCode" class="big-input" placeholder="Enter your 6-digit code">
+
+        <button class="button centered" onclick="submitView()">Submit</button>
+    </div>
+
+    <div class="container" id="termsContainer">
+        <h2>Terms and Conditions</h2>
+        <p>
+          
+I. The Society has Point of Sale devices which can be used to facilitate the payment of goods and services by customers using
+Zimswitch enabled bank cards.
+II. The Society wishes to install Point of Sale devices in the Merchant’s premise/s to enable customers who purchase goods and
+services from the Merchant using bank cards to pay using the Society Point of Sale devices.
+III. The Merchant is agreeable to the Society installing its Point of Sale devices in its premise/s subject to certain terms
+and conditions
+IV. The Parties wish to record the terms and conditions upon which the Society shall install its Point of Sale devices in the
+Merchant’s premise/s and the terms and conditions upon which the Point of Sale devices shall operate
+<p>
+    
+<strong>IT IS AGREED:</strong>
+1. Installation
+1.1 The Society shall install Point of Sale Devices (the “Devices”) in the Merchant’s premises and the number of Devices to
+be installed in the Merchant’s premises shall be agreed upon in writing between the parties. The Society shall be responsible
+for installing the Devices and for ensuring that the Devices are properly functional.
+1.2 The Devices shall accept ZimSwitch enabled customer debit cards which will enable transactions to be conducted in
+the applicable currency in Zimbabwe, as may be stipulated by regulatory authorities from time to time.
+2. Compliance with Operating Instructions
+In operating the Society’s POS facilities, the Merchant undertakes:
+2.1 to comply with the Society standard operating instructions as may be notified in writing from time to time
+2.2 to honour all valid card transactions as authorized by the Society.
+2.3 to display all promotional material as may be supplied by the Society from time to time, which indicate that the Merchant 
+accepts payment for goods and services using the Society’s Devices. The Merchant agrees to replace or remove any such 
+promotional material when requested to do so by The Society within 48 hours of receiving the written advice.
+3. Customer Cards Accepted
+3.1 The Merchant may accept National Building Society and ZimSwitch enabled cards for payments on the POS Devices installed
+by the Society. The Merchant may not accept any other cards, unless authorized to do so by the Society in writing.
+</p>
+<p>
+<strong>  4. Authorizations</strong>
+4.1. Transaction authorizations shall be PIN based. The Customer’s card shall be swiped through the Device at the point of sale, upon
+which they will input their specially encoded secret PIN number which will enable authorization of transaction by the Society.
+5. Merchant’s obligations
+5.1 The Merchant shall keep a copy of all approved transactions print out for a minimum period of six (6) months.
+5.2 The Merchant shall be responsible for ensuring that the POS Devices in its premises are not used for unauthorized
+transactions such as card cloning in good working order and shall report any non-functioning Devices to the Society within
+three hours of the malfunction.
+</p>
+
+<p>
+<strong>6. Merchant Settlement.</strong>
+6.1 The Society will credit the Merchant’s operating account with the Society with the full amount transacted within 24 hours of
+the transaction.
+7. Refund Procedure
+7.1 All requests for a refund should be agreed to between the Customer and the Merchant. The Merchant shall stamp and sign the 
+declined slip or write a letter to the Society as an instruction to the Society to debit the Merchant’s account and refund or 
+credit the Customer’s account
+7.2 Upon receipt of the stamped copy or letter, the Society shall proceed to refund the Customer within 7 working days.
+8. Authority to the Society to debit the Merchant’s Account
+8.1 The Merchant agrees that the Society shall recover from the Merchant the following which shall be payable on demand and 
+which shall be debited from the Merchant’s account:
+8.1.1 Any refund due to the client in accordance with the refund procedure set out in Clause 7
+3 of 4
+8.1.2 Overpayment made by the Customer due to clerical errors, whether such errors were made by the Merchant or the Society
+8.1.3 Reversal in respect of unsuccessful transactions which go on to debit the Customer’s account.
+</p>
+<p>
+
+
+<strong>9. Merchant Services Commission</strong>
+9.1 The Merchant Services Commission to be applied by the Society on all valid transactions undertaken by Customers using the
+NBS POS Device shall be EITHER: (Complete Applicable fee structure only).
+9.1.1 ______ % of the value of each transaction for all POS Transaction Sales; OR
+9.1.2. % of the value of each transaction for all POS Transaction Sales, and should the Monthly POS Transaction Sales
+for any Calendar Month do not exceed $ , or Commission recovery of $ , the Society shall in the ensuing 
+month deduct from the Merchant POS Transaction Sales the Commission shortfall.
+9.2 The Merchant irrevocably agrees that the Society shall recover the Merchant Services Commission shortfall referred in clause
+9.1.2 by debiting the Merchant’s Account and crediting the Society.
+9.3. Notwithstanding the fee structure provided for in clauses 9.1.1 and 9.1.2. above, the Society reserves the right to give notice 
+in writing to The Merchant to vary, change or alter the Merchant Service fees at any time during the subsistence of this 
+agreement. Thereafter, by the continued use of the facility, The Merchant shall be deemed to have agreed to such variation, 
+changes, or alterations.
+</p>
+<p>
+10. Record of Merchant POS Terminal Transactions
+10.1 The Merchant shall maintain receipts and records of all Merchant POS transactions made between Customers and the
+Merchant for inspection by the Society or Regulatory Authorities from time to time.
+10.2 The Society shall maintain records of all Merchant POS transactions for purposes of conducting reconciliations and shall
+credit the Merchant’s Bank Account at the end of each day with the total value of the Day’s Net Sales or transfer through
+RTGS the total value of the Day’s Net Sales to the Merchant’s Bankers as indicated in Clause 15.5
+
+<strong>11. Duration and Termination</strong>
+11.1 This agreement supersedes all prior Agreements entered into between the Society and the Merchant in respect of any Devices.
+11.2 The agreement shall take effect on the date of signature by the party last to sign; and continue in force until
+otherwise terminated by the Parties in terms of this agreement.
+11.3 Either Party May terminate the Agreement by giving thirty (30) days’ written notice of such termination; or by both Parties 
+agreeing in writing that it should be so terminated.
+11.4 Termination of this agreement shall not affect the obligations of either party which arose before the date of termination.
+</p>
+<p>
+
+
+    <strong>12. Governing Law & Dispute Resolution</strong>
+12.1 This Agreement shall be governed by and construed in accordance with Zimbabwean laws.
+12.2 Any difference or dispute arising out of this Agreement shall be resolved through negotiation by the Parties. In the event
+of no agreement being reached through those negotiations, the dispute shall be referred to arbitration at the instance of
+either Party. The Arbitrator to preside over the matter shall be appointed by the President (or head by whatever name) for
+the time being, of the Commercial Arbitration Centre in Harare.
+12.3 In the event that the Parties fail to settle and notwithstanding the aforesaid, either Party reserves the right to take
+legal action before any other competent court in Zimbabwe should it deem it necessary.
+</p>
+<p>
+    <strong>13. General</strong>
+        13.1 The head notes to the clause in this Agreement are inserted for reference purposes only and shall not govern or affect its 
+interpretation or construction.
+13.2 The Devices supplied by the Society to the Merchant shall at all times remain the property of the Society and upon 
+termination
+of this agreement the Merchant shall return the terminals to the Society. The Merchant acknowledges that it has a duty
+of care to the Society in respect of the Devices installed at its premises.
+13.3 Where loss or damage to POS Device or its accompanying communication and charging infrastructure is apportioned to the
+Merchant, repair or replacement costs will be met by the Merchant.
+13.4 The Society encourages the Merchant to include under its Insurance Policy, cover for loss through theft or damage to
+POS Device.
+13.5 The Society shall supply and maintain the POS Devices and shall attend to the training of the Merchant’s staff as necessary.
+13.6 The Merchant’s rights and duties under this agreement shall not be transferable or assignable.
+13.7 The Merchant undertakes to advise the Society in writing of all changes in the Merchant’s banking account arrangements or
+4 of 4
+of any changes of address. The Society shall not be liable for any loss arising from failure to communicate such change.
+13.8 Any relaxation or indulgence or extension of time granted by the Society shall not constitute or be deemed to be a novation
+or waiver of any of the Society’s rights against the Merchant in terms hereof.
+13.9 This Agreement shall constitute the entire agreement and understanding between the parties and shall supersede any
+previous agreements or arrangements between them governing or concerning the subject matter of this Agreement.
+</p>
+<p>
+<strong> Non-Exclusivity Clause</strong>
+Nothing in this Agreement shall be misconstrued to connote exclusivity between the parties.
+            
+ </p>
+        <button class="button" onclick="showContainer('homeContainer')">Back to Home</button>
+    </div>
+</main>
+
+<footer>
+    <div>Bank, Build & Go Beyond</div>
+    <div class="footer-small">©2025 NBS. All Rights Reserved.</div>
+</footer>
+
+<script>
+    function showContainer(containerId) {
+        const containers = document.querySelectorAll('.container');
+        containers.forEach(container => {
+            container.style.display = 'none';
+        });
+        document.getElementById(containerId).style.display = 'block';
+    }
+
+    function checkInput() {
+        const fullName = document.getElementById('fullName').value;
+        const idNumber = document.getElementById('idNumber').value;
+        const businessName = document.getElementById('businessName').value;
+        const businessAddress = document.getElementById('businessAddress').value;
+        const contactDetails = document.getElementById('contactDetails').value;
+        const terminalsApplied = document.getElementById('terminalsApplied').value;
+
+        const submitButton = document.getElementById('submitDocuments');
+        if (fullName && idNumber && businessName && businessAddress && contactDetails && terminalsApplied) {
+            submitButton.classList.remove('hidden');
+            submitButton.classList.add('enabled');
+        } else {
+            submitButton.classList.add('hidden');
+            submitButton.classList.remove('enabled');
+        }
+    }
+
+    function proceedToUpload() {
+        // Navigate to the upload page logic (not implemented here)
+        alert("Proceeding to upload company documents.");
+    }
+
+    function checkStatus() {
+        const code = document.getElementById('verificationCode').value;
+        // Implement API call to check the status (not implemented here)
+        alert("Checking status for code: " + code);
+    }
+
+    function submitView() {
+        const viewCode = document.getElementById('viewVerificationCode').value;
+        // Implement API call to submit the view request (not implemented here)
+        alert("Submitting view for code: " + viewCode);
+    }
+
+    function downloadRequirements() {
+        const link = document.createElement('a');
+        link.href = 'requirements.pdf'; // Replace with the actual document path
+        link.download = 'NBS_Requirements.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Show the home container by default
+    showContainer('homeContainer');
+</script>
+
+</body>
+</html>
